@@ -1,0 +1,31 @@
+{
+  "default_language": "auto",
+  "ignored_words": [
+    "cop",
+    "eer",
+    "cwu",
+    "pv",
+    "ev",
+    "modbus",
+    "hems",
+    "evoflow",
+    "evometer",
+    "evosync",
+    "ecomulti",
+    "minimulti",
+    "ecofloor",
+    "solax",
+    "sofar",
+    "eastron",
+    "aux",
+    "evu",
+    "svg",
+    "pid",
+    "isr",
+    "iwr",
+    "kwh",
+    "soc",
+    "sgready",
+    "sg"
+  ]
+}
