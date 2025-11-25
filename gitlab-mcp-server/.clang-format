@@ -1,0 +1,67 @@
+# .clang-format
+# Konfiguracja formatowania dla projektów C
+# Styl: K&R z customizacją
+
+BasedOnStyle: LLVM
+
+# Język
+Language: Cpp
+Standard: c++03
+
+# Wcięcia
+IndentWidth: 4
+UseTab: Never
+TabWidth: 4
+ContinuationIndentWidth: 4
+
+# Długość linii
+ColumnLimit: 80
+
+# Nawiasy klamrowe - K&R style
+BreakBeforeBraces: Linux
+BraceWrapping:
+  AfterFunction: false
+  AfterControlStatement: Never
+  AfterStruct: false
+  AfterEnum: false
+
+# Spacje
+SpaceBeforeParens: ControlStatements
+SpaceAfterCStyleCast: true
+SpaceBeforeAssignmentOperators: true
+SpacesInParentheses: false
+SpacesInSquareBrackets: false
+SpacesInContainerLiterals: false
+
+# Wyrównanie
+AlignAfterOpenBracket: Align
+AlignConsecutiveAssignments: false
+AlignConsecutiveDeclarations: false
+AlignOperands: true
+AlignTrailingComments: true
+
+# Łamanie linii
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: None
+AllowShortBlocksOnASingleLine: Never
+AlwaysBreakAfterReturnType: None
+
+# Wskaźniki i referencje
+PointerAlignment: Right
+DerivePointerAlignment: false
+
+# Puste linie
+MaxEmptyLinesToKeep: 2
+KeepEmptyLinesAtTheStartOfBlocks: false
+
+# Funkcje
+BinPackParameters: true
+BinPackArguments: true
+
+# Komentarze
+ReflowComments: false
+
+# Inne
+SortIncludes: false
+IndentCaseLabels: true

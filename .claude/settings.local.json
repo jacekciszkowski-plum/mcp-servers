@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(claude mcp add:*)",
+      "Bash(python -c:*)",
+      "Bash(git log:*)",
+      "Bash(git config:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git show:*)",
+      "Bash(mkdir:*)",
+      "Bash(pip install:*)",
+      "Bash(python -m pip install:*)",
+      "Bash(python server.py:*)",
+      "Bash(python test_atlassian.py:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

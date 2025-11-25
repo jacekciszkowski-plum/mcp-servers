@@ -1,0 +1,9 @@
+{
+  "gitlab_url": "https://gitlab.example.com",
+  "default_state": "opened",
+  "default_scope": "all",
+  "per_page": 20,
+  "verify_ssl": true,
+  "timeout": 30,
+  "watched_projects": []
+}

@@ -1,0 +1,195 @@
+{
+  "language": "c",
+  "description": "Konfiguracja code review dla projektów w C - dopasowana do stylu projektu evoSYNC_G0",
+
+  "cppcheck": {
+    "enabled": true,
+    "checks": ["error", "warning", "performance", "portability", "style"],
+    "description": "Zaawansowana analiza statyczna kodu C wykrywająca memory leaks, buffer overflows, NULL dereference, undefined behavior"
+  },
+
+  "formatting": {
+    "max_line_length": 200,
+    "indent_size": 4,
+    "indent_style": "spaces",
+    "brace_style": "K&R",
+    "trailing_whitespace": "error"
+  },
+
+  "naming_conventions": {
+    "structs": {
+      "pattern": "^S[A-Z][a-zA-Z0-9]*$",
+      "description": "Struktury: S + PascalCase (np. SHeatSourceControl)",
+      "severity": "warning"
+    },
+    "enums": {
+      "pattern": "^E[A-Z][a-zA-Z0-9]*$",
+      "description": "Enumy: E + PascalCase (np. EHeatPumpState)",
+      "severity": "warning"
+    },
+    "enum_values": {
+      "pattern": "^E[A-Z][a-zA-Z0-9]*_[a-z][a-zA-Z0-9]*$",
+      "description": "Wartości enumów: prefix enuma + '_' + camelCase (np. EHeatPumpState_off)",
+      "severity": "warning"
+    },
+    "public_functions": {
+      "pattern": "^[A-Z][a-zA-Z0-9]*(_[A-Z][a-zA-Z0-9]*)*$",
+      "description": "Funkcje publiczne: PascalCase lub Prefix_PascalCase (np. GetHeatPumpState, InwerterSolax_GetState, HW_AdcInternalGet)",
+      "severity": "warning"
+    },
+    "static_functions": {
+      "pattern": "^[a-z][a-z0-9_]*$",
+      "description": "Funkcje static: snake_case (np. is_min_boiler_work_time_passed)",
+      "severity": "info"
+    },
+    "variables": {
+      "pattern": "^[a-z][a-zA-Z0-9_]*$",
+      "description": "Zmienne: camelCase lub snake_case (np. heatPumpState, work_time_sec)",
+      "severity": "info"
+    },
+    "macros": {
+      "pattern": "^[A-Z][A-Z0-9_]*$",
+      "description": "Makra i defines: UPPER_CASE (np. DEFAULT_MODULE_SETTINGS)",
+      "severity": "warning"
+    },
+    "impl_functions": {
+      "pattern": "^impl_[a-z][a-z0-9_]*$",
+      "description": "Funkcje impl: impl_ + snake_case (np. impl_is_boiler_active)",
+      "severity": "info"
+    }
+  },
+
+  "unsafe_functions": {
+    "description": "Funkcje potencjalnie niebezpieczne - generują ostrzeżenia",
+    "functions": [
+      {
+        "name": "strcpy",
+        "message": "Używasz strcpy - rozważ strncpy() dla bezpieczeństwa",
+        "suggestion": "Użyj strncpy(dest, src, sizeof(dest) - 1) i upewnij się, że string jest null-terminated",
+        "severity": "warning"
+      },
+      {
+        "name": "strcat",
+        "message": "Używasz strcat - rozważ strncat() dla bezpieczeństwa",
+        "suggestion": "Użyj strncat(dest, src, sizeof(dest) - strlen(dest) - 1)",
+        "severity": "warning"
+      },
+      {
+        "name": "sprintf",
+        "message": "Używasz sprintf - rozważ snprintf() dla bezpieczeństwa",
+        "suggestion": "Użyj snprintf(buffer, sizeof(buffer), format, ...)",
+        "severity": "warning"
+      },
+      {
+        "name": "gets",
+        "message": "NIGDY nie używaj gets() - jest ekstremalnie niebezpieczna!",
+        "suggestion": "Użyj fgets(buffer, sizeof(buffer), stdin)",
+        "severity": "critical"
+      },
+      {
+        "name": "scanf",
+        "message": "scanf bez ograniczenia długości może prowadzić do buffer overflow",
+        "suggestion": "Użyj scanf z ograniczeniem długości: scanf(\"%79s\", buffer)",
+        "severity": "warning"
+      },
+      {
+        "name": "vsprintf",
+        "message": "Używasz vsprintf - rozważ vsnprintf() dla bezpieczeństwa",
+        "suggestion": "Użyj vsnprintf(buffer, sizeof(buffer), format, args)",
+        "severity": "warning"
+      }
+    ]
+  },
+
+  "code_patterns": {
+    "description": "Wzorce kodu do wykrywania",
+    "patterns": [
+      {
+        "name": "malloc_without_check",
+        "pattern": "malloc\\s*\\([^)]+\\)\\s*;(?!\\s*if)",
+        "message": "malloc() bez sprawdzenia NULL - potencjalny crash",
+        "suggestion": "Sprawdź wartość zwracaną: if (ptr == NULL) { /* error handling */ }",
+        "severity": "critical"
+      },
+      {
+        "name": "unchecked_pointer",
+        "pattern": "\\*\\w+\\s*=",
+        "message": "Potencjalne użycie wskaźnika bez sprawdzenia NULL",
+        "suggestion": "Sprawdź wskaźnik przed dereferencją: if (ptr != NULL) { *ptr = ... }",
+        "severity": "warning"
+      },
+      {
+        "name": "magic_number",
+        "pattern": "\\b[0-9]{3,}\\b",
+        "message": "Magic number - rozważ użycie named constant",
+        "suggestion": "Zdefiniuj stałą: #define MAX_BUFFER_SIZE 1024",
+        "severity": "info"
+      },
+      {
+        "name": "uninitialized_variable",
+        "pattern": "\\s+(int|uint8_t|uint16_t|uint32_t|float|double|bool)\\s+\\w+\\s*;\\s*$",
+        "message": "Potencjalnie niezainicjalizowana zmienna",
+        "suggestion": "Zainicjalizuj zmienną przy deklaracji: int value = 0;",
+        "severity": "warning"
+      }
+    ]
+  },
+
+  "best_practices": {
+    "description": "Najlepsze praktyki dla C",
+    "rules": [
+      {
+        "name": "function_length",
+        "max_lines": 50,
+        "message": "Funkcja jest zbyt długa - rozważ refaktoryzację",
+        "severity": "info"
+      },
+      {
+        "name": "deep_nesting",
+        "max_depth": 4,
+        "message": "Zbyt duże zagnieżdżenie bloków - utrudnia czytelność",
+        "severity": "warning"
+      },
+      {
+        "name": "line_length",
+        "max_length": 80,
+        "message": "Linia przekracza 80 znaków",
+        "severity": "warning"
+      },
+      {
+        "name": "missing_include_guard",
+        "message": "Brak include guard w pliku .h",
+        "severity": "critical"
+      },
+      {
+        "name": "const_correctness",
+        "message": "Parametr funkcji mógłby być const",
+        "severity": "info"
+      }
+    ]
+  },
+
+  "file_specific_rules": {
+    "header_files": {
+      "extensions": [".h"],
+      "required": ["include_guard"],
+      "forbidden": ["function_implementations"]
+    },
+    "source_files": {
+      "extensions": [".c"],
+      "required": ["corresponding_header"]
+    }
+  },
+
+  "excluded_checks": {
+    "description": "Sprawdzenia wyłączone dla tego projektu",
+    "checks": []
+  },
+
+  "severity_levels": {
+    "critical": "Krytyczny problem - wymaga natychmiastowej naprawy",
+    "error": "Błąd - powinien zostać naprawiony przed merge",
+    "warning": "Ostrzeżenie - zalecana naprawa",
+    "info": "Informacja - sugestia poprawy"
+  }
+}
