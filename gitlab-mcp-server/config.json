@@ -1,9 +1,9 @@
 {
-  "gitlab_url": "https://gitlab.example.com",
+  "gitlab_url": "http://gitlab.plumlan.pl",
   "default_state": "opened",
   "default_scope": "all",
   "per_page": 20,
-  "verify_ssl": true,
+  "verify_ssl": false,
   "timeout": 30,
   "watched_projects": []
 }
