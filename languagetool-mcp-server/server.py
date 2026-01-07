@@ -71,7 +71,7 @@ class LanguageToolServer:
         """Filter out matches for ignored words"""
         filtered = []
         for match in matches:
-            word = text[match.offset:match.offset + match.errorLength]
+            word = text[match.offset:match.offset + match.error_length]
             if word.lower() not in self.ignored_words:
                 filtered.append(match)
         return filtered
@@ -95,9 +95,9 @@ class LanguageToolServer:
                 "message": match.message,
                 "context": match.context,
                 "offset": match.offset,
-                "length": match.errorLength,
+                "length": match.error_length,
                 "replacements": match.replacements[:5],  # Top 5 suggestions
-                "rule_id": match.ruleId,
+                "rule_id": match.rule_id,
                 "category": match.category
             })
 
